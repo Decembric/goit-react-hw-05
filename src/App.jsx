@@ -16,7 +16,7 @@ function App() {
       <nav>
         <NavLink to="/">Home page</NavLink>
         <NavLink to="/movies">Movies page</NavLink>
-        <NavLink to="/details"></NavLink>
+
       </nav>
 
       <Routes>
