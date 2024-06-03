@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_TOKEN = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NTJlOGQ5ZGQzOWE2MWU2MjMwODU4OWRlYTU5NzAzYiIsInN1YiI6IjY2NTYwMzhkOTkzNjU2ZmRhNzE5ZGI5ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JL_ajp9mb0tsPaeqCSUgqnl_RpIridol8gBa0o5E9xE'
-const IMAGE_URL = 'https://image.tmdb.org/t/p/'
+axios.defaults.baseURL = 'https://api.themoviedb.org/3/'
 
 const options = {
   params: { language: 'en-US' },
@@ -12,9 +12,17 @@ const options = {
 };
 
 
-export const getMovies = async () => {
+export const getTrendingMovies = async () => {
   const response = await axios
-    .get('https://image.tmdb.org/t', options)
+    .get(`/trending/movie/day`, options)
   return response.data
 }
 
+export const getSearchMovie = async (query) => {
+  const response = await axios.get(`search/movie?query=${query}&include_adult=false&language=en-US&page=1`, options)
+  return response.data
+}
+export const getMovieById = async (id) => {
+  const response = await axios.get(`movie/${id}?language=en-US`, options)
+  return response.data
+}
