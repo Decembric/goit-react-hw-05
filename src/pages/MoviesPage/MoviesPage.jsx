@@ -2,45 +2,53 @@ import MoviesList from "../../components/MoviesList/MoviesList"
 
 import { useEffect, useState } from "react"
 import { getSearchMovie } from "../../apiRequest"
+import SearchForm from "../../components/SearchForm/SearchForm"
+import Loader from "../../components/Loader/Loader"
+import LoadErrorMessage from "../../components/LoadErrorMessage/LoadErrorMessage"
+import { useSearchParams } from "react-router-dom"
 
 
 const MoviesPage = () => {
-  const [query, setQuery] = useState('')
+  // const [query, setQuery] = useState('')
   const [movies, setMovies] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const getQuery = searchParams.get("query");
 
   useEffect(() => {
-    if (query === '') return;
+    if (!getQuery) return;
     async function fetchSearchMovie() {
       try {
-        const { results } = await getSearchMovie(query)
-        if (results.length === 0) return
-
-        console.log(results)
-        setMovies(results)
+          setIsLoading(true);
+        setErrorMessage(false);
+        const { results } = await getSearchMovie(getQuery);
+        if (results.length === 0) {
+          setErrorMessage(true);
+          return
+        }
+            console.log(results);
+        setMovies(results);
       } catch (error) {
+        setErrorMessage(true)
         console.log(error)
+      } finally {
+        setIsLoading(false)
+        
       }
     }
     fetchSearchMovie()
-  }, [query])
+  }, [getQuery])
 
-  const onSearchMovie = (event) => {
-    event.preventDefault()
-    setQuery(event.target.elements.search.value)
-    console.log(query)
+  const onSearchMovie = (searchQuery) => {
+       setSearchParams({ query: searchQuery });
+
   }
   return (
     <>
-      <form onSubmit={onSearchMovie}>
-        <input
-          type="text"
-          autoComplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-          name="search"
-        />
-        <button type="submit">Search</button>
-      </form>
+      <SearchForm onSearchMovie={onSearchMovie} />
+      {isLoading && <Loader />}
+     {errorMessage && !isLoading && <LoadErrorMessage />}
       {movies.length > 0 && <MoviesList movies={movies} />}
     </>
 

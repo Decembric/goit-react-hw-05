@@ -1,0 +1,15 @@
+.castList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.castItem {
+  max-width: 180px;
+  padding: 16px;
+}
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}

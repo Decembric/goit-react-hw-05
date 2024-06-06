@@ -26,3 +26,14 @@ export const getMovieById = async (id) => {
   const response = await axios.get(`movie/${id}?language=en-US`, options)
   return response.data
 }
+export const getMovieCast = async (id) => {
+  const response = await axios.get(`/movie/${id}/credits?language=en-US`, options)
+  return response.data
+}
+export const getMovieReviews = async (id) => {
+  const response = await axios.get(`movie/${id}/reviews?language=en-US&page=1`, options)
+  return response.data.results
+}
+
+
+

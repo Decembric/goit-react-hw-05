@@ -1,0 +1,12 @@
+.movieList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.movieImg {
+  width: auto;
+  border-top: 4px solid #161515;
+  border-right: 4px solid #161515;
+  border-bottom: 4px solid #161515;
+  border-left: 4px solid #161515;
+}
