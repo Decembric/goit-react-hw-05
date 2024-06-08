@@ -2,7 +2,7 @@ import css from "./SearchForm.module.css"
 
 const SearchForm = ({ onSearchMovie }) => {
   return (
-    <form className={css.form} onSubmit={() => onSearchMovie()}>
+    <form className={css.form} onSubmit={(event) => { event.preventDefault(); onSearchMovie(event.target.search.value); event.target.reset() }}>
       <input className={css.input}
         type="text"
         autoComplete="off"

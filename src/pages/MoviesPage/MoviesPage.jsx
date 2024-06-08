@@ -2,19 +2,18 @@ import MoviesList from "../../components/MoviesList/MoviesList"
 
 import { useEffect, useState } from "react"
 import { getSearchMovie } from "../../apiRequest"
+import { useSearchParams } from "react-router-dom"
 import SearchForm from "../../components/SearchForm/SearchForm"
 import Loader from "../../components/Loader/Loader"
 import LoadErrorMessage from "../../components/LoadErrorMessage/LoadErrorMessage"
-import { useSearchParams } from "react-router-dom"
 
 
 const MoviesPage = () => {
-  // const [query, setQuery] = useState('')
   const [movies, setMovies] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams()
-  const getQuery = searchParams.get("query");
+  const getQuery = searchParams.get("query") ?? "";
 
   useEffect(() => {
     if (!getQuery) return;
@@ -25,24 +24,25 @@ const MoviesPage = () => {
         const { results } = await getSearchMovie(getQuery);
         if (results.length === 0) {
           setErrorMessage(true);
+          setMovies([])
           return
         }
-            console.log(results);
         setMovies(results);
       } catch (error) {
         setErrorMessage(true)
         console.log(error)
       } finally {
-        setIsLoading(false)
-        
+        setIsLoading(false)      
       }
     }
     fetchSearchMovie()
   }, [getQuery])
 
   const onSearchMovie = (searchQuery) => {
-       setSearchParams({ query: searchQuery });
-
+    if (searchQuery === "") {
+      searchParams.delete("query")
+    } else { searchParams.set("query", searchQuery) }
+    setSearchParams(searchParams)
   }
   return (
     <>

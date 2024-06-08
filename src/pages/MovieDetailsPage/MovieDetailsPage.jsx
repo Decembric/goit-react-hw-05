@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import { getMovieById} from "../../apiRequest";
 import MovieDetails from "../../components/MovieDetails/MovieDetails";
-
 import Loader from "../../components/Loader/Loader";
 import LoadErrorMessage from "../../components/LoadErrorMessage/LoadErrorMessage";
 
@@ -22,8 +21,6 @@ const MovieDetailsPage = () => {
         setErrorMessage(false)
         const movie = await getMovieById(movieId)
         if (!movie) return
-
-        console.log(movie)
         setMovieById(movie)
       } catch (error) {
         setErrorMessage(true)

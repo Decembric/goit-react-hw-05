@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import Loader from "../Loader/Loader"
 import { getMovieCast } from "../../apiRequest"
 import { useParams } from "react-router-dom"
-import css from "./MovieCast.module.css"
+import Loader from "../Loader/Loader"
 import LoadErrorMessage from "../LoadErrorMessage/LoadErrorMessage"
+import css from "./MovieCast.module.css"
 
 
 const defaultImg = 'https://dl-media.viber.com/10/share/2/long/vibes/icon/image/0x0/95e0/5688fdffb84ff8bed4240bcf3ec5ac81ce591d9fa9558a3a968c630eaba195e0.jpg'
@@ -39,7 +39,7 @@ const MovieCast = () => {
       {isLoading && <Loader />}
     
       <ul className={css.castList}>
-        {movieCast.length > 0 && movieCast.map((cast) => (
+        {movieCast!==null && movieCast.length > 0 ?  (movieCast.map((cast) => (
             <li key={cast.id} className={css.castItem}>
               <img
                 src={
@@ -52,7 +52,9 @@ const MovieCast = () => {
               <p>{cast.name}</p>
               <p>{`Character: ${cast.character}`}</p>
             </li>
-        ))}
+        ))) : (
+          <p>We don&apos;t have any casts for this movie.</p>
+        )}
       </ul>
        {errorMessage && <LoadErrorMessage/>}
     </>

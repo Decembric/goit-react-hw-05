@@ -1,15 +1,19 @@
-import { NavLink, Outlet } from "react-router-dom"
-
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom"
 import css from "./MovieDetails.module.css"
+import { Suspense, useRef } from "react"
+import Loader from "../Loader/Loader"
 
 const defaultImg = 'https://dl-media.viber.com/10/share/2/long/vibes/icon/image/0x0/95e0/5688fdffb84ff8bed4240bcf3ec5ac81ce591d9fa9558a3a968c630eaba195e0.jpg'
 
 
 
 const MovieDetails = ({ movieById }) => {
+  const location = useLocation()
+  const backLinkRef = useRef(location.state ?? "/")
   const movieGenres = movieById.genres.map(genre => genre.name).join(', ')
   return (
     <div className={css.container}>
+      <p><b><Link to={backLinkRef.current}>⬅️GO BACK</Link></b></p>
       <div>
         <h1 className={css.movieTitle}>{movieById.title}
         </h1>
@@ -38,7 +42,7 @@ const MovieDetails = ({ movieById }) => {
           </ul>
           </div>
           
-      <p>Additional information</p>
+      <h2>Additional information</h2>
         <ul>
           <li>
             <NavLink to="cast">MovieCast</NavLink>
@@ -46,8 +50,9 @@ const MovieDetails = ({ movieById }) => {
           <li>
             <NavLink to="reviews">MovieReviews</NavLink>
           </li>
-        </ul>
-        <Outlet />
+        </ul><Suspense fallback={<Loader/>}>
+          <Outlet />
+        </Suspense> 
       </div>
     </div>
   )

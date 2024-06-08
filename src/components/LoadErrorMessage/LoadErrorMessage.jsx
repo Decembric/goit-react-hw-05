@@ -2,7 +2,7 @@
 
 const LoadErrorMessage = () => {
   return (
-      <div>Sorry, there was an error. Try reloading the page</div>
+      <h1>Sorry, there was an error. Try reloading the page</h1>
   )
 }
 
